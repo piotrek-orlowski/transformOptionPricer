@@ -1,0 +1,11 @@
+Package: transformOptionPricer
+Type: Package
+Title: Characteristic-function based option pricer.
+Version: 0.1
+Date: 2016-02-02
+Author: Piotr Or{\l}owski, Andr{\'a}s Sali
+Maintainer: Piotr Or{\l}owski <piotrek.orlowski@gmail.com>
+Description: The package allows for efficient calculation of certain European-style derivatives (call options, digital options) via transform methods. The code is fully vectorized in the following dimensions: strike range, maturity, state variable value (for stochastic volatility models). The user has to pass a characteristic function evaluator as an argument to the transform pricers. By default, the package affineModelR, which implements a wide range of jump-diffusion specifications in fast c++ code, is used as the characteristic function back-end.
+License: GPL (>= 2)
+Depends: affineModelR,
+		statmod
