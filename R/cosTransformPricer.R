@@ -34,7 +34,7 @@ cosTransformPricer <- function(strikeMat, mkt, N=120, intLim, payCoeffFoo = call
     cf.values <- preCalc
   }
   
-  disc.factor <- exp(-(mkt$r-mkt$q)) * mkt$t
+  disc.factor <- exp(-(mkt$r-mkt$q)* mkt$t)
   disc.factor <- array(disc.factor, dim = c(T,K,S))
   
   pay.coeffs <- payCoeffFoo(intLim, N, strikeMat)
