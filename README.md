@@ -1,6 +1,10 @@
 # transformOptionPricer
 
-Characteristic-function based option pricer.
+Characteristic-function based option pricer. 
+
+The `cosTransform` pricer uses the method described in http://ta.twi.tudelft.nl/mf/users/oosterle/oosterlee/COS.pdf. 
+
+The `gaussLaguerre` pricer evaluates the CF integrals from http://www.math.nyu.edu/research/carrp/papers/pdf/jcfpub.pdf with the use of Gauss-Laguerre quadrature of the difference between the calculated CF and known auxiliary model (Black-Scholes).
 
 # Installation
 
