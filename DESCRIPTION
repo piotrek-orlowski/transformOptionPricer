@@ -9,3 +9,5 @@ Description: The package allows for efficient calculation of certain European-st
 License: GPL (>= 2)
 Depends: affineModelR,
 		statmod
+Imports: Rcpp (>= 0.12.5)
+LinkingTo: Rcpp, RcppArmadillo
