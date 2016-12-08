@@ -31,7 +31,7 @@ gaussLaguerrePricer <- function(strikeMat, mkt, alpha=0, N=64, sigma.ref = NULL,
 	  weightAndnodes <- gauss.quad(N,'laguerre',alpha=alpha)
 	  uVec <- weightAndnodes$nodes    
 	  # cfVal <- twoFactorJumpODEsSolve(u=cbind(matrix(1i*uVec,ncol=1),matrix(0,N,N.factors)),params.Q,mkt,rtol=rtol,N.factors=N.factors)
-	  cfVal <- charFun(u = cbind(matrix(1i*uVec,ncol=1),matrix(0,N,N.factors)), t.vec = mkt$t, N.factors = N.factors, ...)
+	  cfVal <- charFun(u = cbind(matrix(1i*uVec,ncol=1),matrix(0,N,N.factors)), t.vec = NULL, N.factors = N.factors, mkt = mkt, ...)
 	  
 	} else {
 	  

@@ -4,7 +4,7 @@ using namespace Rcpp;
 
 //'@export
 // [[Rcpp::export]]
-arma::cube glPricer_cpp(const arma::cube& strikeMat, const arma::mat& mkt, const arma::vec& glWts, const arma::vec& glNodes, const arma::cx_cube& cfVals, int Nfactors, double alpha = 0, double sigmaRef = 1.0){
+arma::cube glPricer_cpp(const arma::cube& strikeMat, const arma::mat& mkt, const arma::vec& glWts, const arma::vec& glNodes, arma::cx_cube& cfVals, int Nfactors, double alpha = 0, double sigmaRef = 1.0){
   
   // define 1i imaginary
   std::complex<double> i1(0,1);
@@ -20,6 +20,14 @@ arma::cube glPricer_cpp(const arma::cube& strikeMat, const arma::mat& mkt, const
   cfVals_dim(1) = cfVals.n_cols;
   cfVals_dim(2) = cfVals.n_slices;
   
+  // add discounting to characteristic function coefficients
+  arma::cx_cube driftMat(cfVals_dim(0), cfVals_dim(1), cfVals_dim(2));
+  driftMat.fill(0.0);
+  arma::mat dscnting = (mkt.col(0) % (mkt.col(1)-mkt.col(2))).t();
+  for(int ss = 0; ss < cfVals_dim(2); ss++){
+    cfVals.slice(ss) = cfVals.slice(ss) % arma::exp(i1 * (glNodes * dscnting));
+  }
+  
   arma::cx_cube cfVals_reshaped(cfVals_dim(1), cfVals_dim(2), cfVals_dim(0));
   for(unsigned int dim1=0; dim1 < cfVals_dim(1); dim1++){
     for(unsigned int dim2=0; dim2 < cfVals_dim(2); dim2++){
@@ -28,8 +36,6 @@ arma::cube glPricer_cpp(const arma::cube& strikeMat, const arma::mat& mkt, const
       }
     }
   }
-  
-  cfVals_dim.print("cfVals dimension");
   
   int T = strikeMat_dim(0);
   int K = strikeMat_dim(1);
@@ -134,17 +140,21 @@ arma::cube glPricer_cpp(const arma::cube& strikeMat, const arma::mat& mkt, const
     df2 = arma::repmat(arma::exp(- mkt.col(0) % mkt.col(2)),1,S);
     arma::mat locStrikeMat = strikeMat.tube(0,kk,T-1,kk);
     arma::mat locPBS = pBS.tube(0,kk,T-1,kk);
-    call(kk) = -arma::exp(locStrikeMat) % arma::real(tmp)/arma::datum::pi % df1 + locPBS;
+    call(kk) = - arma::exp(locStrikeMat) % arma::real(tmp)/arma::datum::pi % df1 + locPBS;
     put(kk) = call(kk) + arma::exp(locStrikeMat) % df1 - df2; // call + exp(strikeMat)*df1 - 1*df2
   }
   
-  arma::cube otm(T,K,S);
+  arma::cube otm(T,K,S,arma::fill::zeros);
   for(int kk = 0; kk < K; kk++){
     arma::mat locStrikeMat = strikeMat.tube(0,kk,T-1,kk);
-    arma::umat strikeLessThanZero = arma::find(locStrikeMat < arma::zeros(T,S));
+    arma::mat locForwardMat(locStrikeMat.n_rows, locStrikeMat.n_cols);
+    for(int tt = 0; tt < T; tt++){
+      locForwardMat.row(tt).fill(logFvec(tt));
+    }
+    arma::umat strikeLessThanForward = arma::find(locStrikeMat <= locForwardMat);
     arma::mat tmpPut = put(kk);
     arma::mat tmp = call(kk);
-    tmp(strikeLessThanZero) = tmpPut(strikeLessThanZero);
+    tmp(strikeLessThanForward) = tmpPut(strikeLessThanForward);
     otm.tube(0,kk,T-1,kk) = tmp;
   }
   
