@@ -3,8 +3,8 @@ Type: Package
 Title: Characteristic-function based option pricer.
 Version: 0.1
 Date: 2016-02-02
-Author: Piotr Or{\l}owski, Andr{\'a}s Sali
-Maintainer: Piotr Or{\l}owski <piotrek.orlowski@gmail.com>
+Author: Piotr Orlowski, Andras Sali
+Maintainer: Piotr Orlowski <piotrek.orlowski@gmail.com>
 Description: The package allows for efficient calculation of certain European-
     style derivatives (call options, digital options) via transform methods. The
     code is fully vectorized in the following dimensions: strike range, maturity,
