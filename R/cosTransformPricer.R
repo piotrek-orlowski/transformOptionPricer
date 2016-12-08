@@ -27,14 +27,14 @@ cosTransformPricer <- function(strikeMat, mkt, N=120, intLim, payCoeffFoo = call
   
   cf.u <- 0:(N-1) * pi / diff(intLim) * 1i
   if(is.null(preCalc)){
-    cf.values <- charFun(u = cbind(cf.u,matrix(0,nrow=N,ncol=N.factors)), t.vec = mkt$t, N.factors = N.factors, ...)
+    cf.values <- charFun(u = cbind(cf.u,matrix(0,nrow=N,ncol=N.factors)), t.vec = NULL, N.factors = N.factors, mkt = mkt, ...)
     cf.values <- array(cf.values, dim = c(N,T,S,K))
     cf.values <- aperm(a = cf.values, perm = c(1,2,4,3))
   } else {
     cf.values <- preCalc
   }
   
-  disc.factor <- exp(-(mkt$r-mkt$q)* mkt$t)
+  disc.factor <- exp(-(mkt$r)* mkt$t)
   disc.factor <- array(disc.factor, dim = c(T,K,S))
   
   pay.coeffs <- payCoeffFoo(intLim, N, strikeMat)
