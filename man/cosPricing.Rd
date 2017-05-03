@@ -34,4 +34,3 @@ Implementation of Fang and Oosterlee's (2008) Fourier-cosine expansion method of
 \details{
 The integration method is described in detail in F. Fang and C.W. Oosterlee, ``A Novel Pricing Method for European Options Based on Fourier-Cosine Series Expansions'', accessible at http://ta.twi.tudelft.nl/mf/users/oosterle/oosterlee/COS.pdf.
 }
-

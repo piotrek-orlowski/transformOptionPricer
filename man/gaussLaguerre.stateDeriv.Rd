@@ -30,4 +30,3 @@ A list containing elements call, put and otm, which in turn contain two lists of
 \description{
 Calculate derivatives of option prices with respect to state values, using a laguerre quadrature
 }
-

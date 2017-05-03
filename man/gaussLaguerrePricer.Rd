@@ -33,4 +33,3 @@ Calculate option prices using a Laguerre quadrature of the difference between a 
 \details{
 In extensive tests this pricer yields results comparable to the Fourier-cosine series pricer, with fewer characteristic function evaluations. Care should be taken at very high values of variance factors.
 }
-
