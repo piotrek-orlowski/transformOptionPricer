@@ -109,6 +109,52 @@ callCosCoeffs <- function(intLim, Nterms = 120, strikeMat){
 #' @describeIn cosPricing
 #' @export
 
+putCosCoeffs <- function(intLim, Nterms = 120, strikeMat){
+  
+  # Internal helper functions
+  psiFoo <- function(N,c,d){
+    kk <- 1:(N-1)
+    psi <- matrix(0,nrow = N, ncol = length(c))
+    psi[1,] <- (d - c) * rep(1,length(c))
+    psi[-1,] <- kronecker(matrix((b-a)/(kk*pi),ncol = 1), matrix(1, ncol = length(c))) * (kronecker(matrix(sin(kk*pi*(d-a)/(b-a)), ncol = 1),matrix(1,ncol=length(c))) - sin(kronecker(matrix(kk*pi,ncol=1),matrix((c-a)/(b-a),ncol=length(c)))))
+    return(psi)
+  }
+  
+  chiFoo <- function(N,c,d){
+    kk <- 0:(N-1)
+    chi0 <- kronecker(matrix(1/(1 + (kk*pi/(b-a))^2),ncol=1), matrix(1,ncol = length(c)))
+    chi1 <- kronecker(matrix(cos(kk * pi * (d-a)/(b-a))*exp(d),ncol=1),matrix(1,ncol=length(c)))
+    chi2 <- cos(kronecker(matrix(kk * pi,ncol=1), matrix((c-a)/(b-a),ncol=length(c)))) * kronecker(matrix(1,nrow=length(kk)),matrix(exp(c),nrow=1))
+    chi3 <- kronecker(matrix(sin(kk * pi * (d-a)/(b-a))*exp(d)*kk*pi/(b-a),ncol=1),matrix(1,ncol=length(c)))
+    chi4 <- sin(kronecker(matrix(kk*pi,ncol=1), matrix((c-a)/(b-a),nrow=1))) * kronecker(matrix(kk*pi/(b-a),ncol=1), matrix(exp(c),nrow=1));
+    chi <- chi0 * (chi1-chi2+chi3-chi4)
+    return(chi)
+  }
+  
+  a <- intLim[1]
+  b <- intLim[2]
+  
+  dimStrikeMat <- dim(strikeMat)
+  T <- dimStrikeMat[1]
+  K <- dimStrikeMat[2]
+  if(length(dimStrikeMat)!=3){
+    S <- 1
+  } else {
+    S <- dimStrikeMat[3]
+  }
+  
+  strikeMat <- as.numeric(strikeMat)
+  
+  VkVec <- 2/(b-a) * (-chiFoo(Nterms,strikeMat,b)+psiFoo(Nterms,strikeMat,b) * kronecker(matrix(1,nrow=Nterms),exp(t(strikeMat))))
+  
+  VkVec <- array(data = as.numeric(VkVec), dim = c(Nterms,T,K,S))
+  
+  return(VkVec)
+}
+
+#' @describeIn cosPricing
+#' @export
+
 digitalCosCoeffs <- function(intLim, Nterms, strikeMat){
 
   # Internal helper functions
@@ -140,6 +186,8 @@ digitalCosCoeffs <- function(intLim, Nterms, strikeMat){
   
   return(VkVec)
 }
+
+
 
 eijMat <- function(intLim, Nterms, strikeMat){
   
