@@ -2,7 +2,7 @@
 #' @description Calculate option prices using a Laguerre quadrature of the difference between a reference characteristic function (Black-Scholes for high volatility) and user-defined characteristic function. Only European call and put options.
 #' @param strikeMat array of size \code{TxKxS} of relative log-strikes
 #' @param N number of points of integration.
-#' @param sigma.ref variance (volatility squared) value for the reference characteristic function, length \code{S}. If not provided, \code{...} will be checked for existence of a state matrix and \col{rowSums} of variance states will be taken.
+#' @param sigma.ref variance (volatility squared) value for the reference characteristic function, length \code{S}. If not provided, \code{...} will be checked for existence of a state matrix and \code{rowSums} of variance states will be taken.
 #' @param mkt data.frame with \code{T} rows and fields: r -- risk-free rate, q -- dividend yield, t -- option maturity.
 #' @param alpha parameter of the laguerre quadrature.
 #' @param N.factors integer, number of stochastic volatility factors, argument for \code{charFun}. If your \code{charFun} doesn't accept such an argument, for example you're pricing in the Black-Scholes model, use \code{N.factors = 0}.

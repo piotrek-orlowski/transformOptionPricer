@@ -4,8 +4,8 @@
 \alias{gaussLaguerre.stateDeriv}
 \title{Calculate derivatives of option prices with respect to state values, using a laguerre quadrature}
 \usage{
-gaussLaguerre.stateDeriv(params.Q, strikeMat, mkt, stateVec, rtol = 1e-13,
-  alpha = 0, N = 64, preCalc = NULL, N.factors = 3)
+gaussLaguerre.stateDeriv(params.Q, strikeMat, mkt, stateVec,
+  rtol = 1e-13, alpha = 0, N = 64, preCalc = NULL, N.factors = 3)
 }
 \arguments{
 \item{params.Q}{The Q-parameters of the stock-price process}

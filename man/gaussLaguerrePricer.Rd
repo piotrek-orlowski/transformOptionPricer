@@ -4,8 +4,8 @@
 \alias{gaussLaguerrePricer}
 \title{Laguerre quadrature pricing.}
 \usage{
-gaussLaguerrePricer(strikeMat, mkt, alpha = 0, N = 64, sigma.ref = NULL,
-  N.factors = 3, charFun, preCalc = NULL, ...)
+gaussLaguerrePricer(strikeMat, mkt, alpha = 0, N = 64,
+  sigma.ref = NULL, N.factors = 3, charFun, preCalc = NULL, ...)
 }
 \arguments{
 \item{strikeMat}{array of size \code{TxKxS} of relative log-strikes}
@@ -16,7 +16,7 @@ gaussLaguerrePricer(strikeMat, mkt, alpha = 0, N = 64, sigma.ref = NULL,
 
 \item{N}{number of points of integration.}
 
-\item{sigma.ref}{variance (volatility squared) value for the reference characteristic function, length \code{S}. If not provided, \code{...} will be checked for existence of a state matrix and \col{rowSums} of variance states will be taken.}
+\item{sigma.ref}{variance (volatility squared) value for the reference characteristic function, length \code{S}. If not provided, \code{...} will be checked for existence of a state matrix and \code{rowSums} of variance states will be taken.}
 
 \item{N.factors}{integer, number of stochastic volatility factors, argument for \code{charFun}. If your \code{charFun} doesn't accept such an argument, for example you're pricing in the Black-Scholes model, use \code{N.factors = 0}.}
 

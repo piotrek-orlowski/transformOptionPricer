@@ -5,8 +5,8 @@
 \alias{makeFixedMaturityMktList}
 \title{Utilities for creating mkt lists for simulating option prices}
 \usage{
-makeFixedExpiryMktList(num.days, t = 37/365, expiry.switch = 30, r = 0,
-  p = 1, q = 0)
+makeFixedExpiryMktList(num.days, t = 37/365, expiry.switch = 30,
+  r = 0, p = 1, q = 0)
 
 makeFixedMaturityMktList(num.days, r = 0, t = 30/365, q = 0, p = 1)
 }
